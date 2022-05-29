@@ -1,5 +1,3 @@
-import 'dart:html';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 //Para começar o desenvolvimento desta paginida digite APENAS stf na tela sem nada e selecione a primeira opção, assim que selecionar
@@ -23,21 +21,12 @@ class HomePage extends StatefulWidget {
 
 //Declarando variáveis
 class _HomePageState extends State<HomePage> {
-  double valor2 = 0;
-  double valor = 0.0;
-  double auxiliar = 0;
-  double resultado = 0.0;
-  dynamic operacao;
-
-//Definindo um valor inicial para o resultado
-  @override
-  void initState() {
-    super.initState();
-    resultado = 0.0;
-  }
-
+  String conta = "";
+  String resultado = "";
+  TextEditingController operador = TextEditingController();
 
 //inicio calculadora
+@override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false, // set it to false
@@ -74,10 +63,14 @@ class _HomePageState extends State<HomePage> {
                           width: 600,
                           child: Center(                            
                             child: 
-                            Text('$valor' + ' $operacao ' + '$valor2' +' = $resultado',
-                                style: 
-                                TextStyle(
+                            TextFormField(
+                                controller: operador,
+                                readOnly: true,
+                                decoration: null,
+                                style:                                 
+                                TextStyle(        
                                   fontSize: 30,
+                                  decoration: null,
                                   color: Colors.teal[100]
                                 )),
                           
@@ -109,12 +102,11 @@ class _HomePageState extends State<HomePage> {
                           shadowColor: Colors.red,
                     ), // Essa parte do style ai é só um acréscimo, não é necessária
                     onPressed: () {
-                      //No on pressed é onde será realizada as operações e atribuições de valores dos botões
-                      operacao = '%';
-                      double v1 = valor;
+                      //No on pressed é onde será realizada as operações e atribuições de valores dos botões e é basicamente assim que deve ser feito.
                         setState(() {
-                          resultado = v1 / 100;
+                          conta += '%';
                         });    
+                        operador.text = conta;
                     },
                     child: const Text(
                       //Aqui é o que vai aparecer escrito no botão
@@ -140,16 +132,13 @@ class _HomePageState extends State<HomePage> {
                     ),
                     onPressed: () {
                       //Lembre-se é no onPressed onde deverá ser feito a atribuição dos valores e calculos
-                      operacao = ' ';
-                      setState(() {
-                        resultado = 0;
-                        valor = 0;
-                        valor2 = 0;
-                        auxiliar = 0;
-                      });
+                      conta = "";
+                      resultado = conta;
+                      operador.text = resultado;
+                      setState(() {});
                     },
                     child: const Text(
-                      'C',
+                      'CE',
                       style: TextStyle(
                           fontSize: 24, color: Color.fromARGB(255, 7, 89, 100)),
                     )
@@ -170,12 +159,10 @@ class _HomePageState extends State<HomePage> {
                           shadowColor: Colors.red,
                     ),
                     onPressed: () {
-                      operacao = '/';
-                      double v1 = valor;
-                      double v2 = valor2;
                       setState(() {
-                        resultado = v1 / v2;
+                        conta += "/";
                       });
+                      operador.text = conta;
                     },
                     child: const Text(
                       '/',
@@ -198,9 +185,10 @@ class _HomePageState extends State<HomePage> {
                           shadowColor: Colors.red,
                     ),
                     onPressed: () {
-                      setState(() {
-                        resultado = 0;
-                      });
+                      conta = conta.replaceRange(
+                          conta.length - 1, null, "");
+                      print(conta);
+                      operador.text = conta;
                     },
                       child: const Icon(
                         Icons.backspace_sharp,
@@ -211,7 +199,7 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
 
-          //Row 2
+          //Row 2 -- Apartir daqui recomendo coipiar somente as operações que vocês julgarem necessários pois é basicamente copiar e colar
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -229,12 +217,11 @@ class _HomePageState extends State<HomePage> {
                           shadowColor: Colors.red,
                     ),
                     onPressed: () {
-                      //Como aqui não estou realizando nenhum calculo então vou apenas atribuir valores.
                       //Geralmente atribuímos esses valores no setState.                      
                       setState(() {
-                        valor = 7;
-                        valor2 = 7;               
+                        conta += 7.toString();
                       });
+                      operador.text = conta;
                     },
                     child: const Text(
                       '7',
@@ -258,9 +245,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                     onPressed: () {
                       setState(() {
-                        valor = 8;
-                        resultado = 8;
+                        conta += 8.toString();
                       });
+                      operador.text = conta;
                     },
                     child: const Text(
                       '8',
@@ -284,9 +271,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                     onPressed: () {
                       setState(() {
-                        valor = 9;
-                        valor2 = 9;  
+                        conta += 9.toString();
                       });
+                      operador.text = conta;
                     },
                     child: const Text(
                       '9',
@@ -310,12 +297,10 @@ class _HomePageState extends State<HomePage> {
                     ),
                     onPressed: () {
                       //Aqui esta um exemplo de operação, eu fiz assim mas acredito que há jeitos mais fáceis, fiquem a vontade para inovar.
-                      operacao = 'x';
-                      double v1 = valor;
-                      double v2 = valor2;
                       setState(() {
-                        resultado = v1 * v2;
+                        conta += "x";
                       });
+                      operador.text = conta;
                     },
                     child: const Text(
                       'x',
@@ -346,9 +331,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                     onPressed: () {
                       setState(() {
-                        valor = 4;
-                        valor2 = 4;  
+                        conta += 4.toString();
                       });
+                      operador.text = conta;
                     },
                     child: const Text(
                       '4',
@@ -373,9 +358,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                     onPressed: () {
                       setState(() {
-                        valor = 5;
-                        valor2 = 5;  
+                        conta += 5.toString();
                       });
+                      operador.text = conta;
                     },
                     child: const Text(
                       '5',
@@ -399,9 +384,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                     onPressed: () {
                       setState(() {
-                        valor = 6;
-                        valor2 = 6;  
+                        conta += 6.toString();
                       });
+                      operador.text = conta;
                     },
                     child: const Text(
                       '6',
@@ -424,12 +409,10 @@ class _HomePageState extends State<HomePage> {
                           shadowColor: Colors.red,
                     ),
                     onPressed: () {
-                      operacao = '-';
-                      double v1 = valor;
-                      double v2 = valor2;
                       setState(() {
-                        resultado = v1 - v2;
+                        conta += "-";
                       });
+                      operador.text = conta;
                     },
                     child: const Text(
                       '-',
@@ -459,9 +442,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                     onPressed: () {
                       setState(() {
-                        valor = 1;
-                        valor2 = 1;
+                        conta += 1.toString();
                       });
+                      operador.text = conta;
                     },
                     child: const Text(
                       '1',
@@ -486,9 +469,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                     onPressed: () {
                       setState(() {
-                        valor = 2;
-                        valor2 = 2;  
+                        conta += 2.toString();
                       });
+                      operador.text = conta;
                     },
                     child: const Text(
                       '2',
@@ -512,9 +495,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                     onPressed: () {
                       setState(() {
-                        valor = 3;
-                        valor2 = 3;  
+                        conta += 3.toString();
                       });
+                      operador.text = conta;
                     },
                     child: const Text(
                       '3',
@@ -537,12 +520,10 @@ class _HomePageState extends State<HomePage> {
                           shadowColor: Colors.red,
                     ),
                     onPressed: () {
-                      operacao = '+';
-                      double v1 = valor;
-                      double v2 = valor2;
                       setState(() {
-                        resultado = v1 / v2;
+                        conta += "+";
                       });
+                      operador.text = conta;
                     },
                     child: const Text(
                       '+',
@@ -570,13 +551,11 @@ class _HomePageState extends State<HomePage> {
                           elevation: 20,
                           shadowColor: Colors.red,
                     ),
-                    onPressed: () {
-                      double v1 = valor;
-                      double v2 = valor2;
+                    onPressed: () {                      
                       setState(() {
-                        v1 = -(v1);
-                        v2 = -(v2); 
+                        conta += "+/-";
                       });
+                      operador.text = conta;
                     },
                     child: const Text(
                       '+/-',
@@ -601,9 +580,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                     onPressed: () {
                       setState(() {
-                        valor = 0;
-                        valor2 = 0;  
+                        conta += 0.toString();
                       });
+                      operador.text = conta;
                     },
                     child: const Text(
                       '0',
@@ -627,8 +606,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                     onPressed: () {
                       setState(() {
-
+                        conta += ",";
                       });
+                      operador.text = conta;
                     },
                     child: const Text(
                       ',',
@@ -637,7 +617,7 @@ class _HomePageState extends State<HomePage> {
                     ))),
               ),
 
-              //Botão 4
+              //Botão 4 -- Este é o botão de = e eu acho bem importante copiar como ele é feito mas não é necessário copiar tudo
               Padding(
                 padding: const EdgeInsets.all(5),
                 child: 
@@ -651,9 +631,50 @@ class _HomePageState extends State<HomePage> {
                           shadowColor: Colors.red,
                     ),
                     onPressed: () {
-                      setState(() {
-                        resultado;
-                      });
+                      conta = conta.replaceAll(",", "."); //Copiar daqui
+                          if (conta.contains("/")) {
+                            var nums = conta.split("/");
+                            resultado =
+                                (double.parse(nums[0]) / double.parse(nums[1]))
+                                    .toString();
+                            operador.text = resultado;
+                          } //até aqui e só repetir conforme as operações a serem realizadas
+                      else if (conta.contains("x")) {
+                            var nums = conta.split("x");
+                            resultado =
+                                (double.parse(nums[0]) * double.parse(nums[1]))
+                                    .toString();
+                            operador.text = resultado;
+                          } else if (conta.contains("+")) {
+                            var nums = conta.split("+");
+                            resultado =
+                                (double.parse(nums[0]) + double.parse(nums[1]))
+                                    .toString();
+                            operador.text = resultado;
+                          } else if (conta.contains("-")) {
+                            var nums = conta.split("-");
+                            resultado =
+                                (double.parse(nums[0]) - double.parse(nums[1]))
+                                    .toString();
+                            operador.text = resultado;
+                          }
+                          else if (conta.contains("%")) {
+                            var nums = conta.split("%");
+                            resultado =
+                                (double.parse(nums[0]) / 100).toString();
+                            operador.text = resultado;
+                          }
+                          else if (conta.contains("+/-")) {
+                            var nums = conta.split("+/-");
+                                if (double.parse(nums[0]) > 0) { 
+                                  resultado =  (-(double.parse(nums[0]))).toString();
+                                }
+                                else { 
+                                  resultado =  ((double.parse(nums[0]))).toString();
+                                }
+                            operador.text = resultado;
+                          }
+                          setState(() {});
                     },
                     child: const Text(
                       '=',
